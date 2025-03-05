@@ -1,1 +1,24 @@
-апрапрапр
+## 14
+
+Найти производителей, которые выпускают более одной модели, при этом все выпускаемые производителем модели являются продуктами одного типа.
+Вывести: maker, type
+
+```sql
+Select maker, type
+ from product
+ where
+  maker in (
+    -- производители, у которых все модели
+    -- являются продуктами одного типа
+    select maker from product
+      group by maker
+      having count(distinct type) = 1
+  )
+ group by maker, type
+ having
+  count(model) > 1
+```
+
+| maker  |  type   |
+|--------|---------|
+| D      | Printer |
